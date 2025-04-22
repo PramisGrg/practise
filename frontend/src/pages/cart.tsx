@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { useCartStore } from "../store/cart-state";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 
 const Cart = () => {
   const { cartItems, itemCount, totalPrice, addToCart, removeFromCart } =
     useCartStore();
+
+  const [selected, setSelected] = useState<Date>();
 
   console.log(cartItems, "This is cart items");
 
@@ -31,6 +36,19 @@ const Cart = () => {
 
       <h1>Total: {totalPrice}</h1>
       <p>ItemCount : {itemCount}</p>
+
+      <div>
+        <DayPicker
+          mode="single"
+          selected={selected}
+          onSelect={setSelected}
+          footer={
+            selected
+              ? `Selected: ${selected.toLocaleDateString()}`
+              : "Pick a day."
+          }
+        />
+      </div>
     </div>
   );
 };

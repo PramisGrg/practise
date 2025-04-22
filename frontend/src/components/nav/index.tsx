@@ -2,8 +2,11 @@ import MaxWidthContainer from "../layouts/max-width-container";
 import { UserRound, Search, Heart, ShoppingCart } from "lucide-react";
 import Sheet from "../ui/sheet";
 import { useState } from "react";
+import { useCartStore } from "../../store/cart-state";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const { itemCount } = useCartStore();
   const [openSheet, setSheetOpen] = useState(false);
 
   const onOpen = () => setSheetOpen(true);
@@ -24,7 +27,16 @@ const Navbar = () => {
         <Search className="md:block hidden" />
         <UserRound className="md:block hidden" />
         <Heart className="md:block hidden" />
-        <ShoppingCart />
+        <div className="relative">
+          <Link to="/cart">
+            <ShoppingCart />
+          </Link>
+          {itemCount > 0 && (
+            <span className="absolute flex items-center justify-center -top-4 -right-4 bg-red-500 h-6 w-6 rounded-full text-white">
+              {itemCount}
+            </span>
+          )}
+        </div>
         <div
           onClick={onOpen}
           className="md:hidden flex flex-col justify-between w-6 h-4 cursor-pointer"
